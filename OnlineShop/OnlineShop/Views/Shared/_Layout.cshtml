@@ -1,0 +1,177 @@
+﻿@using OnlineShop.Models.Home;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="logo">
+                    <h1><a href="#">Online <span>Shopping Store</span></a></h1>
+                    <p>My Shop</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                @*<div class="account">
+           <ul>
+               <li>
+                   <div class="hidden-xs">
+                       <h4><a>Call</a></h4>
+                       <p>018##-######</p>
+                   </div>
+
+                   <div class="visible-xs">
+
+                       <p>018##-######</p>
+                   </div>
+
+               </li>
+           </ul>
+
+        </div>*@
+                @*<ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Cart(3) <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    @if (Session["cart"] != null)
+                    {
+                        foreach (Items item in (List<Items>)Session["cart"])
+                        {
+                            <li><a href="#">@item.product.ProductName (@item.quantity)</a></li>
+                        }
+                    }
+                    <li class="divider"></li>
+                    <li><a href="#">IT</a></li>
+                </ul>
+            </li>
+        </ul>*@
+                @{
+                    int c_count = 0;
+                    if (Session["cart"] != null)
+                    {
+                        List<Items> li = (List<Items>)Session["cart"];
+                        foreach(var i in li)
+                        {
+                            c_count += i.quantity;
+                        }
+                    }
+
+                }
+                <ul class="user-cart">
+                    <li class="user"><a href="#"><i class="fa fa-user"></i></a>
+                    </li>
+                    <li class="cart">
+                        <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                        <ul class="list-cart">
+
+                            @if (Session["cart"] != null)
+                            {
+                                foreach (Items item in (List<Items>)Session["cart"])
+                                {
+                                    <li>
+                                        <ul class="product-in-cart">
+                                            <li><img src="~/Products/@item.product.ProductImage" width="40" class="img-responsive" /></li>
+                                            <li><a href="#">@item.product.ProductName</a></li>
+                                            <li><a>(@item.quantity)</a></li>
+                                            <li>@Html.ActionLink("Delete", "remove_from_cart", "Home", new { productId = item.product.ProductId }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
+                                if (c_count > 0)
+                                {
+                                    <li><a href="@Url.Action("view_product_in_cart","Home")">View Details</a></li>
+                                }
+
+
+
+                            }
+                            @if (c_count == 0)
+                            {
+                                <li>Empty</li>
+                            }
+
+                        </ul>
+                    </li>
+
+
+
+                        <li><div class="number">@c_count</div></li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="nav-menus">
+
+                    <ul class="nav nav-pills">
+                        <li class="active"><a style="border-radius:initial;" href="../Home/Index">Home</a></li>
+                        <li><a style="border-radius:initial;" href="#">Location</a></li>
+                        <li><a style="border-radius:initial;" href="#">About</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+        @RenderBody()
+        <hr />
+        <footer>
+            <div class="row">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <h2 class="header">About us</h2>
+                    <p>Bikelife was established in 2012 as both a bicycle store and showroom, as well as a distributor of cycling and multisport brands. Our aim is to get Vietnam moving and loving endurance sports as much as we do, whether it be through selling indispensable products to customers directly or by encouraging other businesses to invest in our top-quality brands themselves.</p>
+                    <div class="icons">
+                        <div><a><span class="fab fa-facebook"></span></a></div>
+                        <div><a><span class="fab fa-twitter"></span></a></div>
+                        <div><a><span class="fab fa-instagram"></span></a></div>
+                        <div><a><span class="fab fa-youtube"></span></a></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <h2 class="header">Address</h2>
+                    <div class="address-content">
+                        <div><a><span class="fas fa-map-marker-alt"></span>HaNoi_VietNam</a></div>
+                        <div><a><span class="fas fa-phone"></span>123 456 1239</a></div>
+                        <div><a><span class="fas fa-envelope"></span>du99cy@gmail.com</a></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <h2 class="header">Freeback</h2>
+                    <div class="freeback-content">
+                        <p>Email:</p>
+                        <input type="email">
+                        <p>Message:</p>
+                        <textarea rows="4" cols="30"></textarea>
+                        <div><button type="submit">Send</button></div>
+                        <div class="a">dadaad</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

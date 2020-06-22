@@ -1,0 +1,59 @@
+﻿@model OnlineShop.Database.Tbl_Category
+@{
+    ViewBag.Title = "UpdateCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item ">Categories</li>
+            <li class="breadcrumb-item active">Add New Category</li>
+
+
+        </ol>
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Add New Category
+
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("UpdateCategory", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.HiddenFor(m => m.CategoryId)
+
+                    <div class="form-group">
+                        <label class="control-label">Category Name</label>
+
+                        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control", placeholder = "Enter category Name", required = "required", autofocus = "autofocus" })
+                        @Html.ValidationMessageFor(m => m.CategoryName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBox("IsActive", true)
+                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsDelete, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBox("isDelete", false)
+                            @Html.ValidationMessageFor(model => model.IsDelete, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                    <a href="../Admin/Categories" class="btn btn-info float_right">Back to List</a>
+                }
+                </a>
+            </div>
+    </div>
+

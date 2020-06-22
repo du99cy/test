@@ -1,0 +1,73 @@
+﻿@using OnlineShop.Models.Home
+
+@{
+    ViewBag.Title = "view_product_in_cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Product that you have bought</h2>
+@if (Session["cart"] == null)
+{
+    <div class="alert alert-danger">
+        <strong> No product in your cart .Let's purchase right now!!!</strong>
+    </div>
+
+}
+else
+{
+    @*<table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name of product</th>
+                    <th>Quantity</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach(var item in (List<Items>)Session["cart"])
+                    {
+                        <td style="display:flex;justify-content:center;"><img src="~/Products/@item.product.ProductImage" width="100" class="img-responsive"></td>
+                        <td style="display:flex;justify-content:center;">@item.product.ProductName</td>
+                        <td >
+                            <a href="@Url.Action("increase_quantity_in_cart",new { productId=item.product.ProductId})"><i class="fa fa-plus"></i></a>
+                             @item.quantity
+                            <a href="@Url.Action("decrease_quantity_in_cart",new { productId=item.product.ProductId})"><i class="fa fa-minus"></i></a>
+                        </td>
+
+
+
+                    }
+                </tr>
+
+            </tbody>
+        </table>*@
+decimal total_price=0;
+foreach (var item in (List<Items>)Session["cart"])
+{
+
+        <ul class="product-in-view-cart">
+            <li><img src="~/Products/@item.product.ProductImage" width="120" class="img-responsive"/></li>
+            <li>@item.product.ProductName</li>
+            <li>@item.product.Price</li>
+            <li>
+                <a href="@Url.Action("increase_quantity_in_cart", new { productId = item.product.ProductId })"><i class="fa fa-plus"></i></a>
+                @item.quantity
+                <a href="@Url.Action("decrease_quantity_in_cart", new { productId = item.product.ProductId })"><i class="fa fa-minus"></i></a>
+            </li>
+            <li>@(item.product.Price * item.quantity)</li>
+            <li><a href="@Url.Action("remove_from_cart",new { productId=item.product.ProductId})">Delete</a></li>
+        </ul>
+        total_price = Convert.ToDecimal(total_price + @item.product.Price * @item.quantity);
+        
+
+    }
+    <div class="row">
+        <div class="col-md-9" style="text-align:center;font-weight:bold;">Total</div>
+        <div class="col-md-3"><span style="font-weight:bold;">@total_price</span></div>
+    </div>
+
+}
+
+
